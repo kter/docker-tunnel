@@ -22,7 +22,10 @@ VOLUME ["/ssh-agent"]
 # for ambassador mode
 EXPOSE 2222
 
-RUN useradd -m ssh-user
+RUN addgroup -S ssh-user \
+  && adduser -S ssh-user -G ssh-user \
+  && echo "ssh-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
+  && echo 'ssh-user:ssh-user' | chpasswd
 USER ssh-user
 
 ENTRYPOINT ["/usr/bin/autossh", "-M", "0", "-T", "-N", "-oStrictHostKeyChecking=no", "-oServerAliveInterval=180", "-oUserKnownHostsFile=/dev/null", "-L"]
