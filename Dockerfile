@@ -22,5 +22,7 @@ VOLUME ["/ssh-agent"]
 # for ambassador mode
 EXPOSE 2222
 
+RUN useradd -m ssh-user
+USER ssh-user
 
 ENTRYPOINT ["/usr/bin/autossh", "-M", "0", "-T", "-N", "-oStrictHostKeyChecking=no", "-oServerAliveInterval=180", "-oUserKnownHostsFile=/dev/null", "-L"]
