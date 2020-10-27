@@ -22,8 +22,8 @@ VOLUME ["/ssh-agent"]
 # for ambassador mode
 EXPOSE 2222
 
-RUN addgroup -S ssh-user \
-  && adduser -S ssh-user -G ssh-user \
+RUN addgroup -g 1000 -S ssh-user \
+  && adduser -u 1000 -S ssh-user -G ssh-user \
   && echo "ssh-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
   && echo 'ssh-user:ssh-user' | chpasswd
 USER ssh-user
